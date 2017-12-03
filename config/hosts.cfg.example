@@ -1,0 +1,9 @@
+[nagios]
+host = 127.0.0.1
+login = changeme
+psw = changeme
+
+# todo CID
+[interface]
+login = changeme
+psw = changeme

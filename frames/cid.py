@@ -1,0 +1,1 @@
+from scripts.nagios import hosts

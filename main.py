@@ -2,7 +2,7 @@ import os
 
 from colorama import Fore, init
 
-from scripts.pingNa import pingna
+from frames.pingNa import pingna
 
 
 def menu():

@@ -13,12 +13,12 @@ from scripts.nagios import hosts
 def input_timeout(prompt, timeout=120):
     finishat = time.time() + timeout
     tecla = []
-    print(prompt)
+    print(prompt, end="")
     while True:
         if msvcrt.kbhit():
             tecla.append(msvcrt.getche())
             if tecla[-1] == b'\r':  # or \n, whatever Win returns;-)
-                return None
+                return tecla
             time.sleep(0.1)  # just to yield to other processes/threads
         else:
             if time.time() > finishat:
@@ -56,6 +56,10 @@ def pingna():
                 if int(key) > 24:
                     os.system('mode con: cols=110 lines=' + str((int(key) + 9)))
                 print(DoubleTable(tableData, "Pings").table)  # print the table
-            input_timeout("\n\nPressione Enter para atualizar...")  # input with timer for refresh anytime
+            while True:
+                receive = b''.join(input_timeout("\n\nDigite o número para verificar ping ou pressione enter para atualizar: ")).decode('utf-8')
+                if int(receive) < int(data['problems']) and receive != b'\r':
+                    os.system("start cmd @cmd /k \"title {} & ping -t {}\"".format(data['hosts'][str(receive[0:-1])]['host'], data['hosts'][str(receive[0:-1])]['ip']))
+                    continue
     except KeyboardInterrupt:
         back()  # on press Ctrl + C user back to menu

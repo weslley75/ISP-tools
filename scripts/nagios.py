@@ -24,19 +24,21 @@ def logar(par=None):
     return urllib.request.urlopen(site).read().decode("utf-8")  # get nagios webpage content
 
 
-def hosts(par):
+def hosts(par=None):
     pag = logar(par)
     receive = {'hosts': {}}  # create dict
     tree = html.fromstring(pag)
     receive['problems'] = int(tree.xpath('//td[@class="hostTotalsPROBLEMS"]/text()')[0])  # get number of issues
-    # noinspection PyTypeChecker
-    for x in range(0, receive['problems']):
+    host = tree.xpath('//td[@class="statusHOSTUNREACHABLE" or '
+                      '@class="statusHOSTDOWN" or @class="statusHOSTUP"]/a/text()')
+    ip = tree.xpath('//td[@class="statusHOSTUNREACHABLE" or @class="statusHOSTDOWN" or '
+                    '@class="statusHOSTUP"]/a/@title')  # (name, ip and time)
+    time = tree.xpath('//td[(@class="statusBGUNREACHABLE" or @class="statusBGDOWN" or '
+                      '@class="statusEven" or @class="statusOdd") and not(@valign="center") and '
+                      'contains(text(), "d")]/text()')
+    for x in range(0, len(time)):
         receive['hosts'][str(x)] = {}
-        receive['hosts'][str(x)]['host'] = tree.xpath('//td[@class="statusHOSTUNREACHABLE" or '
-                                                      '@class="statusHOSTDOWN" or @class="statusHOSTUP"]/a/text()')[x]
-        receive['hosts'][str(x)]['ip'] = tree.xpath('//td[@class="statusHOSTUNREACHABLE" or @class="statusHOSTDOWN" or '
-                                                    '@class="statusHOSTUP"]/a/@title')[x]  # (name, ip and time)
-        receive['hosts'][str(x)]['time'] = tree.xpath('//td[(@class="statusBGUNREACHABLE" or @class="statusBGDOWN" or '
-                                                      '@class="statusEven") and not(@valign="center") and '
-                                                      'contains(text(), "d")]/text()')[x]
+        receive['hosts'][str(x)]['host'] = host[x]
+        receive['hosts'][str(x)]['ip'] = ip[x]
+        receive['hosts'][str(x)]['time'] = time[x]
     return receive

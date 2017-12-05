@@ -2,3 +2,6 @@
 config/hosts.cfg
 test
 *.pyc
+build
+dist
+*.spec

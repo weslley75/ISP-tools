@@ -10,7 +10,7 @@ from terminaltables import DoubleTable
 from scripts.back import back
 from scripts.nagios import hosts
 
-def input_timeout(prompt, timeout=120):
+def input_timeout(prompt, timeout=60):
     finishat = time.time() + timeout
     tecla = []
     print(prompt, end="")
@@ -22,7 +22,7 @@ def input_timeout(prompt, timeout=120):
             time.sleep(0.1)  # just to yield to other processes/threads
         else:
             if time.time() > finishat:
-                return None
+                return [b"\r"]
 
 
 def pingna():
@@ -57,9 +57,11 @@ def pingna():
                     os.system('mode con: cols=110 lines=' + str((int(key) + 9)))
                 print(DoubleTable(tableData, "Pings").table)  # print the table
             while True:
-                receive = b''.join(input_timeout("\n\nDigite o número para verificar ping ou pressione enter para atualizar: ")).decode('utf-8')
-                if int(receive) < int(data['problems']) and receive != b'\r':
-                    os.system("start cmd @cmd /k \"title {} & ping -t {}\"".format(data['hosts'][str(receive[0:-1])]['host'], data['hosts'][str(receive[0:-1])]['ip']))
-                    continue
+                receive = b''.join(input_timeout("\nDigite o número para verificar ping ou pressione enter para atualizar: ")).decode('utf-8')
+                if receive[0:-1].isnumeric():
+                    if int(receive) < int(data['problems']):
+                        os.system("start cmd @cmd /k \"title {} & ping -t {}\"".format(data['hosts'][str(receive[0:-1])]['host'], data['hosts'][str(receive[0:-1])]['ip']))
+                else:
+                    break
     except KeyboardInterrupt:
         back()  # on press Ctrl + C user back to menu

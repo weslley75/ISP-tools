@@ -10,6 +10,7 @@ from terminaltables import DoubleTable
 from scripts.back import back
 from scripts.nagios import hosts
 
+
 def input_timeout(prompt, timeout=60):
     finishat = time.time() + timeout
     tecla = []
@@ -57,10 +58,12 @@ def pingna():
                     os.system('mode con: cols=110 lines=' + str((int(key) + 9)))
                 print(DoubleTable(tableData, "Pings").table)  # print the table
             while True:
-                receive = b''.join(input_timeout("\nDigite o número para verificar ping ou pressione enter para atualizar: ")).decode('utf-8')
+                receive = b''.join(input_timeout("\nDigite o número para verificar ping ou pressione enter para "
+                                                 "atualizar: ")).decode('utf-8')
                 if receive[0:-1].isnumeric():
                     if int(receive) < int(data['problems']):
-                        os.system("start cmd @cmd /k \"title {} & ping -t {}\"".format(data['hosts'][str(receive[0:-1])]['host'], data['hosts'][str(receive[0:-1])]['ip']))
+                        os.system("start cmd @cmd /k \"title {} & ping -t {}\"".format(
+                            data['hosts'][str(receive[0:-1])]['host'], data['hosts'][str(receive[0:-1])]['ip']))
                 else:
                     break
     except KeyboardInterrupt:

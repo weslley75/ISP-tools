@@ -11,7 +11,7 @@ def logar(par=None):
     host = (config.get('nagios', 'host'))
     login = (config.get('nagios', 'login'))  # get configs
     psw = (config.get('nagios', 'psw'))
-    site = "http://" + host + "/nagios/cgi-bin/status.cgi?"
+    site = "http://" + host + "/nagios/cgi-bin/status.cgi?" # todo if nagios or interface
     for key, value in par.items():
         site += key + "=" + value + "&"
     # get site by host in config file

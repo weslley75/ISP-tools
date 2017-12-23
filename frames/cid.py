@@ -22,7 +22,6 @@ def cid():
         init()
         torre = input("Digite o número da torre: ")
         timeout = 1
-        result = None
         tableData = [['Interface', 'IP', 'Canal']]
         lista = []
         for key, value in hosts()['hosts'].items():

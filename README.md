@@ -1,3 +1,3 @@
 # ISP tools
 A software to make the work of monitoring a network easier.
-Work based on my job where I needed of a tool for help me to work.
+Project based on my job where I needed of a tool for help me to work.

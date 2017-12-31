@@ -27,7 +27,7 @@ def cid():
         for key, value in hosts()['hosts'].items():
             result = False
             canal = False
-            if re.match(r'InterfaceAPT' + re.escape(torre) + r'[A-Z_-]', value['host']):
+            if re.match(r'InterfaceAPT' + re.escape(torre) + r'[A-Z_-]?', value['host']):
                 host = value['ip']
                 try:
                     session = telnetlib.Telnet(host, 23, timeout)

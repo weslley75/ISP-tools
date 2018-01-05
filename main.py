@@ -6,6 +6,7 @@ from sys import exit
 from frames.pingNa import pingna
 from frames.cid import cid
 from frames.search import search
+from frames.mac import mac
 
 
 def menu():
@@ -18,9 +19,10 @@ def menu():
         print("\t1. Ping Nagios")
         print("\t2. Buscar Canais")
         print("\t3. Consulta IPs")
+        print("\t4. Consulta MACs")
         print(Fore.GREEN + "\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + Fore.WHITE)
         result = int(input("Selecione uma opção: "))
-        actions = {1: pingna, 2: cid, 3: search, 0: exit, }
+        actions = {1: pingna, 2: cid, 3: search, 4: mac, 0: exit, }
         actions.get(result)()
     except KeyboardInterrupt:
         exit()

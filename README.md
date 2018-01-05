@@ -10,3 +10,6 @@ For cases of interference of interfaces in connection Wireless the same search t
 
 # 3. Search
 Common module that search the hosts on Nagios database for getting IP. 
+
+# 4. MACs
+Get company of equipment by MAC Address using a API of [Mac Address Vendor Lookup]("http://macvendors.co/").
